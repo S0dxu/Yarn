@@ -14,7 +14,7 @@ const MainChat = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const socketConnection = io('http://127.0.0.1:3000');
+        const socketConnection = io('https://yarn-backend-d8uw.onrender.com/');
         setSocket(socketConnection);
 
         socketConnection.on('broadcastMessage', (message, sender, color, timestamp) => {

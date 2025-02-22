@@ -12,7 +12,7 @@ const Login = () => {
         const color = '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
         sessionStorage.setItem("username", username);
         sessionStorage.setItem("color", color);
-        const socketConnection = io('http://127.0.0.1:3000');
+        const socketConnection = io('https://yarn-backend-d8uw.onrender.com/');
         
         socketConnection.on('connect', () => {
             socketConnection.emit('joinRoom', username);
