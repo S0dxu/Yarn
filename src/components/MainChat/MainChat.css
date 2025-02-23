@@ -29,6 +29,10 @@
     background-color: #ffffff;
 }
 
+.mainchat .timestamp {
+    font-size: 12px;
+}
+
 .mainchat button {
     background-color: #13c9c9a4;
     color: white;
