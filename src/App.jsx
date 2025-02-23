@@ -25,9 +25,13 @@ function AuthHandler() {
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     const username = sessionStorage.getItem('username');
+    const color = sessionStorage.getItem('color');
 
-    if (!token && username && location.pathname !== '/login') {
-      navigate('/login', { replace: true });
+    if (!token || !username || !color && location.pathname !== '/login') {
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('username');
+      sessionStorage.removeItem('color');
+      navigate('/login');
     }
   }, [navigate, location.pathname]);
 

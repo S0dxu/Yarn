@@ -20,7 +20,7 @@ const MainChat = () => {
 
         socketConnection.on('broadcastMessage', (message, sender, color, timestamp) => {
             setMessages((prevMessages) => [...prevMessages, { message, sender, color, timestamp }]);
-        }); 
+        });
 
         return () => {
             if (socketConnection) {
@@ -57,18 +57,14 @@ const MainChat = () => {
     };
 
     const disconnectUser = () => {
-        if (socket && token) {
-            socket.emit('userGone', token);
+        if (socket && username) {
+            socket.emit('userGone', username);
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("username");
             sessionStorage.removeItem("color");
-            navigate("/login");
 
-            return () => {
-                if (socket) {
-                    socket.off('userLeft'); // cleanup
-                }
-            };
+            socket.off('disconnect');
+            navigate('/login', { replace: true });
         }
     };
 
