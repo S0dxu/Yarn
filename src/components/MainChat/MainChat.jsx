@@ -7,6 +7,7 @@ const MainChat = () => {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const [socket, setSocket] = useState(null);
+    const token = sessionStorage.getItem('token');
     const username = sessionStorage.getItem('username');
     const color = sessionStorage.getItem('color');
     const messagesEndRef = useRef(null);
@@ -14,7 +15,7 @@ const MainChat = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const socketConnection = io('https://yarn-backend-d8uw.onrender.com/');
+        const socketConnection = io('https://yarn-backend-d8uw.onrender.com');
         setSocket(socketConnection);
 
         socketConnection.on('broadcastMessage', (message, sender, color, timestamp) => {
@@ -45,8 +46,8 @@ const MainChat = () => {
     };
 
     const sendMessage = () => {
-        if (socket && message.trim() && username && color) {
-            socket.emit('sendMessage', message, username, color);
+        if (socket && message.trim() && token && color) {
+            socket.emit('sendMessage', message, token, color);
             setMessage('');
 
             setTimeout(() => {
@@ -56,8 +57,9 @@ const MainChat = () => {
     };
 
     const disconnectUser = () => {
-        if (socket && username) {
-            socket.emit('userGone', username);
+        if (socket && token) {
+            socket.emit('userGone', token);
+            sessionStorage.removeItem("token");
             sessionStorage.removeItem("username");
             sessionStorage.removeItem("color");
             navigate("/login");

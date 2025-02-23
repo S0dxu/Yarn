@@ -10,9 +10,7 @@ const Login = () => {
 
     const goToChatRoom = () => {
         const color = '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
-        sessionStorage.setItem("username", username);
-        sessionStorage.setItem("color", color);
-        const socketConnection = io('https://yarn-backend-d8uw.onrender.com/');
+        const socketConnection = io('https://yarn-backend-d8uw.onrender.com');
         
         socketConnection.on('connect', () => {
             socketConnection.emit('joinRoom', username);
@@ -27,7 +25,10 @@ const Login = () => {
             setError(message);
         });
 
-        socketConnection.on('success', () => {
+        socketConnection.on('success', (token) => {
+            sessionStorage.setItem("token", token);
+            sessionStorage.setItem("username", username);
+            sessionStorage.setItem("color", color);
             navigate("/"); 
         });
     }

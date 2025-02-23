@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import './App.css';
 import MainChat from './components/MainChat/MainChat';
 import SideChat from './components/SideChat/SideChat';
@@ -19,17 +19,17 @@ function App() {
 }
 
 function AuthHandler() {
+  const navigate = useNavigate();
   const location = useLocation();
-  const [username, setUsername] = useState(null);
 
   useEffect(() => {
-    const storedUsername = sessionStorage.getItem('username');
-    setUsername(storedUsername);
+    const token = sessionStorage.getItem('token');
+    const username = sessionStorage.getItem('username');
 
-    if (storedUsername === null && location.pathname !== '/login') {
-      window.location.href = '/login';
+    if (!token && username && location.pathname !== '/login') {
+      navigate('/login', { replace: true });
     }
-  }, [location.pathname]);
+  }, [navigate, location.pathname]);
 
   return null;
 }
